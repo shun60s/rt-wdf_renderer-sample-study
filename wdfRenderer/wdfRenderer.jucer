@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="u0bCmr" name="wdfRenderer" projectType="guiapp" version="1.0.0"
+              bundleIdentifier="com.rtwdf.wdfRenderer" includeBinaryInAppConfig="1"
+              jucerVersion="5.4.3">
+  <MAINGROUP id="CPGYEk" name="wdfRenderer">
+    <GROUP id="{4E95389F-9A73-B786-6941-2AD2921B97D6}" name="Source">
+      <GROUP id="{BB262302-E357-1753-CB18-328C64CCB52E}" name="circuits">
+        <FILE id="aXtput" name="wdfCCTAx1Tree.hpp" compile="0" resource="0"
+              file="../Circuits/wdfCCTAx1Tree.hpp"/>
+        <FILE id="DLIIU6" name="wdfCCTAx4Tree.hpp" compile="0" resource="0"
+              file="../Circuits/wdfCCTAx4Tree.hpp"/>
+        <FILE id="EThCpk" name="wdfJTM45Tree.hpp" compile="0" resource="0"
+              file="../Circuits/wdfJTM45Tree.hpp"/>
+        <FILE id="gvwkvN" name="wdfSwitchTree.hpp" compile="0" resource="0"
+              file="../Circuits/wdfSwitchTree.hpp"/>
+        <FILE id="v4sCyy" name="wdfTonestackTree.hpp" compile="0" resource="0"
+              file="../Circuits/wdfTonestackTree.hpp"/>
+      </GROUP>
+      <GROUP id="{D5CD6E95-5C7A-B2CF-6527-0F7EFB46EA5E}" name="Libs">
+        <GROUP id="{F4744432-9493-AE32-39FF-9E35743F3405}" name="rt-wdf">
+          <FILE id="lum01T" name="rt-wdf.cpp" compile="1" resource="0" file="../Libs/rt-wdf_lib/Libs/rt-wdf/rt-wdf.cpp"/>
+          <FILE id="rQlfvh" name="rt-wdf.h" compile="0" resource="0" file="../Libs/rt-wdf_lib/Libs/rt-wdf/rt-wdf.h"/>
+          <FILE id="OCpW1e" name="rt-wdf_nlModels.cpp" compile="1" resource="0"
+                file="../Libs/rt-wdf_lib/Libs/rt-wdf/rt-wdf_nlModels.cpp"/>
+          <FILE id="Ut5drr" name="rt-wdf_nlModels.h" compile="0" resource="0"
+                file="../Libs/rt-wdf_lib/Libs/rt-wdf/rt-wdf_nlModels.h"/>
+          <FILE id="KMjaRq" name="rt-wdf_nlSolvers.cpp" compile="1" resource="0"
+                file="../Libs/rt-wdf_lib/Libs/rt-wdf/rt-wdf_nlSolvers.cpp"/>
+          <FILE id="g4hNZl" name="rt-wdf_nlSolvers.h" compile="0" resource="0"
+                file="../Libs/rt-wdf_lib/Libs/rt-wdf/rt-wdf_nlSolvers.h"/>
+          <FILE id="mFqD3M" name="rt-wdf_types.h" compile="0" resource="0" file="../Libs/rt-wdf_lib/Libs/rt-wdf/rt-wdf_types.h"/>
+        </GROUP>
+        <GROUP id="{CF55B2CC-8AA6-5D80-552E-BA97092C4D3D}" name="r8brain-free-src">
+          <FILE id="jnTxJR" name="CDSPBlockConvolver.h" compile="0" resource="0"
+                file="../Libs/r8brain-free-src/CDSPBlockConvolver.h"/>
+          <FILE id="Jjx4KX" name="CDSPFIRFilter.h" compile="0" resource="0" file="../Libs/r8brain-free-src/CDSPFIRFilter.h"/>
+          <FILE id="wJUKwK" name="CDSPFracInterpolator.h" compile="0" resource="0"
+                file="../Libs/r8brain-free-src/CDSPFracInterpolator.h"/>
+          <FILE id="rDxw4T" name="CDSPProcessor.h" compile="0" resource="0" file="../Libs/r8brain-free-src/CDSPProcessor.h"/>
+          <FILE id="EObIVK" name="CDSPRealFFT.h" compile="0" resource="0" file="../Libs/r8brain-free-src/CDSPRealFFT.h"/>
+          <FILE id="HePFsH" name="CDSPResampler.h" compile="0" resource="0" file="../Libs/r8brain-free-src/CDSPResampler.h"/>
+          <FILE id="P8GM2b" name="CDSPSincFilterGen.h" compile="0" resource="0"
+                file="../Libs/r8brain-free-src/CDSPSincFilterGen.h"/>
+          <FILE id="AbaJAA" name="fft4g.h" compile="0" resource="0" file="../Libs/r8brain-free-src/fft4g.h"/>
+          <FILE id="ttAoB5" name="r8bbase.cpp" compile="1" resource="0" file="../Libs/r8brain-free-src/r8bbase.cpp"/>
+          <FILE id="LXTBHI" name="r8bbase.h" compile="0" resource="0" file="../Libs/r8brain-free-src/r8bbase.h"/>
+          <FILE id="vMAUHu" name="r8bconf.h" compile="0" resource="0" file="../Libs/r8brain-free-src/r8bconf.h"/>
+          <FILE id="NMZ8yI" name="r8butil.h" compile="0" resource="0" file="../Libs/r8brain-free-src/r8butil.h"/>
+        </GROUP>
+      </GROUP>
+      <FILE id="xOOD0l" name="MainComponent.cpp" compile="1" resource="0"
+            file="Source/MainComponent.cpp"/>
+      <FILE id="PuyHiN" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="bxwNIg" name="RenderThread.cpp" compile="1" resource="0"
+            file="Source/RenderThread.cpp"/>
+      <FILE id="ofz5ma" name="RenderThread.h" compile="0" resource="0" file="Source/RenderThread.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX" extraCompilerFlags="-ffast-math&#10;-msse2&#10;-march=native"
+               extraLinkerFlags="" externalLibraries="armadillo&#10;blas&#10;lapack">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="wdfRenderer"
+                       libraryPath="/usr/local/lib" headerPath="/usr/local/include"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="wdfRenderer"
+                       libraryPath="/usr/local/lib" headerPath="/usr/local/include"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../Libs/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../Libs/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../Libs/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../Libs/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../Libs/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../Libs/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../Libs/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../Libs/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../Libs/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../Libs/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../Libs/JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+    <CODEBLOCKS_LINUX targetFolder="Builds/CodeBlocksLinux" extraDefs="JUCE_JACK_CLIENT_NAME=\\&quot;$PROJECTNAME\\&quot;"
+                      extraCompilerFlags="-ffast-math&#10;-msse2&#10;-march=native"
+                      extraLinkerFlags="" externalLibraries="armadillo&#10;blas&#10;lapack">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="wdfRenderer"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="wdfRenderer"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_gui_extra" path="../../juce"/>
+        <MODULEPATH id="juce_gui_basics" path="../../juce"/>
+        <MODULEPATH id="juce_graphics" path="../../juce"/>
+        <MODULEPATH id="juce_events" path="../../juce"/>
+        <MODULEPATH id="juce_data_structures" path="../../juce"/>
+        <MODULEPATH id="juce_core" path="../../juce"/>
+        <MODULEPATH id="juce_audio_utils" path="../../juce"/>
+        <MODULEPATH id="juce_audio_processors" path="../../juce"/>
+        <MODULEPATH id="juce_audio_formats" path="../../juce"/>
+        <MODULEPATH id="juce_audio_devices" path="../../juce"/>
+        <MODULEPATH id="juce_audio_basics" path="../../juce"/>
+      </MODULEPATHS>
+    </CODEBLOCKS_LINUX>
+    <LINUX_MAKE targetFolder="Builds/LinuxMakefile" extraDefs="JUCE_JACK_CLIENT_NAME=\\&quot;$PROJECTNAME\\&quot;"
+                extraCompilerFlags="-ffast-math&#10;-msse2&#10;-march=native"
+                extraLinkerFlags="&#10;" externalLibraries="armadillo&#10;blas&#10;lapack">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" libraryPath="" isDebug="1" optimisation="1" targetName="wdfRenderer"/>
+        <CONFIGURATION name="Release" libraryPath="" isDebug="0" optimisation="3" targetName="wdfRenderer"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_gui_extra" path="../../juce"/>
+        <MODULEPATH id="juce_gui_basics" path="../../juce"/>
+        <MODULEPATH id="juce_graphics" path="../../juce"/>
+        <MODULEPATH id="juce_events" path="../../juce"/>
+        <MODULEPATH id="juce_data_structures" path="../../juce"/>
+        <MODULEPATH id="juce_core" path="../../juce"/>
+        <MODULEPATH id="juce_audio_utils" path="../../juce"/>
+        <MODULEPATH id="juce_audio_processors" path="../../juce"/>
+        <MODULEPATH id="juce_audio_formats" path="../../juce"/>
+        <MODULEPATH id="juce_audio_devices" path="../../juce"/>
+        <MODULEPATH id="juce_audio_basics" path="../../juce"/>
+      </MODULEPATHS>
+    </LINUX_MAKE>
+    <VS2017 targetFolder="Builds/VisualStudio2017" externalLibraries="blas_win64_MT.lib&#10;lapack_win64_MT.lib&#10;">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" headerPath="..\..\..\Libs\armadillo-9.500.2\include"
+                       libraryPath="..\..\..\Libs\armadillo-9.500.2\examples\lib_win64"/>
+        <CONFIGURATION isDebug="0" name="Release" libraryPath="..\..\..\Libs\armadillo-9.500.2\examples\lib_win64"
+                       headerPath="..\..\..\Libs\armadillo-9.500.2\include"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_gui_extra" path="..\Libs\JUCE\modules"/>
+        <MODULEPATH id="juce_gui_basics" path="..\Libs\JUCE\modules"/>
+        <MODULEPATH id="juce_graphics" path="..\Libs\JUCE\modules"/>
+        <MODULEPATH id="juce_events" path="..\Libs\JUCE\modules"/>
+        <MODULEPATH id="juce_data_structures" path="..\Libs\JUCE\modules"/>
+        <MODULEPATH id="juce_core" path="..\Libs\JUCE\modules"/>
+        <MODULEPATH id="juce_audio_utils" path="..\Libs\JUCE\modules"/>
+        <MODULEPATH id="juce_audio_processors" path="..\Libs\JUCE\modules"/>
+        <MODULEPATH id="juce_audio_formats" path="..\Libs\JUCE\modules"/>
+        <MODULEPATH id="juce_audio_devices" path="..\Libs\JUCE\modules"/>
+        <MODULEPATH id="juce_audio_basics" path="..\Libs\JUCE\modules"/>
+      </MODULEPATHS>
+    </VS2017>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_audio_devices" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_audio_formats" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_audio_processors" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_audio_utils" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_core" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_events" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
+  </MODULES>
+  <JUCEOPTIONS JUCE_ALSA="0" JUCE_JACK="1"/>
+  <LIVE_SETTINGS>
+    <WINDOWS/>
+  </LIVE_SETTINGS>
+</JUCERPROJECT>
