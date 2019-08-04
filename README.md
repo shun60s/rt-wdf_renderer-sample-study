@@ -15,7 +15,7 @@ Windows10 + Visual Studio Community 2017の環境で動かすために変更し�
 - VisualStudio2017の追加。　wdfRenderer.jucer
 
 upsampleして、WDFを計算した後、downsampleすると　プログラムがハングアップするので、
-downsampleの方は無効にしています。   
+downsampleの方は無効にしました。   
 armadillo-9.500.2の中のblas_win64_MT.dll lapack_win64_MT.dllを使いました。  
 
 
