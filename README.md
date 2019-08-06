@@ -32,6 +32,14 @@ armadillo-9.500.2の中のblas_win64_MT.dll lapack_win64_MT.dllを使いまし�
 
 ## ライセンス  
 RT-WDF libraryがGPLのため、それに従うことになります。   
-Libsディレクトリーの中にある説明文を参照してください。
+Libsディレクトリーの中にある説明文を参照してください。  
+
+## 真空管アンプの入出力波形　
+
+Wave Digital Filterを使った真空管アンプ回路CCTA(x4)とJTM45の動作波形の例。  
+真空管は非線形素子なのでサンプリング周波数を４倍に上げて計算している。  
+JTM45は歪ませる設定(input gain, volume)にしている。  
+
+![figure1](in_output_wav_comparison.png)  
 
 
