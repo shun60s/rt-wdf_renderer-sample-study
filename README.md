@@ -18,6 +18,11 @@ upsampleして、WDFを計算した後、downsampleすると　プログラム�
 downsampleの方は無効にしました。   
 armadillo-9.500.2の中のblas_win64_MT.dll lapack_win64_MT.dllを使いました。  
 
+## 主な追加点  
+
+- vcxプロジェクトファイル Builds/VisualStudio2017  
+- Fender Bassman tone stackのR-type adaptorのS-Matrixの計算  ToneStack_R-type_S-Matrix_compute  
+
 
 ## 参照したもの  
 
@@ -34,12 +39,16 @@ armadillo-9.500.2の中のblas_win64_MT.dll lapack_win64_MT.dllを使いまし�
 RT-WDF libraryがGPLのため、それに従うことになります。   
 Libsディレクトリーの中にある説明文を参照してください。  
 
-## 真空管アンプの入出力波形　
+## 真空管アンプの入出力波形の例  　
 
 Wave Digital Filterを使ってシュミレーションした真空管アンプ回路CCTA(x4)とJTM45の動作波形の例。  
 真空管は非線形素子なのでサンプリング周波数を４倍に上げて計算している。  
 JTM45は歪ませる設定(input gain, volume)にしている。  
 
 ![figure1](in_output_wav_comparison.png)  
+  
+  
+
+
 
 

@@ -1,5 +1,6 @@
 /__pycahe__/
 /output-wav-sample/
+/old/
 *.exe
 *.dll
 *.bat
@@ -7,5 +8,4 @@
 *.md~
 *.py~
 *.*~
-*.pickle
 
