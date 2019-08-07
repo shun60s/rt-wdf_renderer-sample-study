@@ -8,7 +8,7 @@
 #
 #    rt-wdf_renderer/Circuits/wdfTonestackTree.hpp
 #
-#  Aug-2019
+#  Aug-2019, Shun
 #  GPL v3
 
 from sympy import *
