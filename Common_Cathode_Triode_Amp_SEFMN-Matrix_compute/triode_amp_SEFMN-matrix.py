@@ -63,6 +63,16 @@ def get_S21(S, internal_ports_number=2):
         Sx.col_del(-1)
     return Sx
 
+def write_matrx(f, M, name0):
+    # name0 is S, E, F, M, N
+    f.write('//---- ' + name0 + ' Matrix\n')
+    c0='rootMats->' + name0 + 'mat.at'
+    for i in range(M.shape[0]):
+        for j in range(M.shape[1]):
+            c1= '(%d,%d) = ' % (i, j) 
+            c2='{:.14e}'.format( M[i,j])
+            f.write( c0+c1+c2+';\n')
+    f.write('\n')
 
 # set value
 FS=44100
@@ -248,4 +258,12 @@ print(E, file=codecs.open('E_matrix.txt', 'w', 'utf-8'))
 # write E matrix as pickle
 with open('E_matrix.pickle', 'wb') as outf:
     outf.write(pickle.dumps(E))
+
+# write S,E,F,M,N matrix as c form
+with open('matrix_c_form.txt','wt') as outf:
+    write_matrx(outf, S2_eval, 'S')
+    write_matrx(outf, E, 'E')
+    write_matrx(outf, F, 'F')
+    write_matrx(outf, M, 'M')
+    write_matrx(outf, N, 'N')
 
