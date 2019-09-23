@@ -9,6 +9,7 @@
 ===============================================================================
 Change: 
   build for vs2017, disable downsample and etc , July-2019, Shun
+  add two triode amp, September, Shun 
 
 Caution:
  At present, upsample and then downsample, except same sampling rate,
@@ -30,12 +31,18 @@ using namespace juce;
 
 #include "../../Libs/r8brain-free-src/CDSPResampler.h"
 
+#define TwoTriodeAmp 1
+
 // Circuits
 #include "../../Circuits/wdfCCTAx1Tree.hpp"
 #include "../../Circuits/wdfCCTAx4Tree.hpp"
 #include "../../Circuits/wdfJTM45Tree.hpp"
 #include "../../Circuits/wdfSwitchTree.hpp"
 #include "../../Circuits/wdfTonestackTree.hpp"
+
+#ifdef TwoTriodeAmp
+#include "../../Circuits/wdfTwoTriodeAmpTree.hpp"
+#endif
 
 
 //==============================================================================
@@ -85,6 +92,9 @@ public:
         wdfTreeSelector.addItem("CCTAx4",3);
         wdfTreeSelector.addItem("JTM45",4);
         wdfTreeSelector.addItem("Switch",5);
+#ifdef TwoTriodeAmp
+        wdfTreeSelector.addItem("Two Triode Amp",6);
+#endif
         wdfTreeSelector.addListener(this);
         
         addAndMakeVisible (&renderButton);
@@ -109,7 +119,9 @@ public:
         wdfTreeArray[2].reset(new wdfCCTAx4Tree());
         wdfTreeArray[3].reset(new wdfJTM45Tree());
         wdfTreeArray[4].reset(new wdfSwitchTree());
-        
+#ifdef TwoTriodeAmp
+        wdfTreeArray[5].reset(new wdfTwoTriodeAmpTree());
+#endif
         for(auto &wdfTree : wdfTreeArray){
             wdfTree->initTree();
         }
@@ -277,7 +289,11 @@ protected:
     //==============================================================================
 
     wdfTree* myWdfTree;
+#ifdef TwoTriodeAmp
+    std::array<std::unique_ptr<wdfTree>, 6> wdfTreeArray;
+#else
     std::array<std::unique_ptr<wdfTree>, 5> wdfTreeArray;
+#endif
     AudioDeviceManager myDeviceManager;
 
     GroupComponent groupParams;

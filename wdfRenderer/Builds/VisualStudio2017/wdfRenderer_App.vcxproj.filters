@@ -2271,6 +2271,9 @@
     <ClInclude Include="..\..\..\Circuits\wdfTonestackTree.hpp">
       <Filter>wdfRenderer\Source\circuits</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Circuits\wdfTwoTriodeAmpTree.hpp">
+      <Filter>wdfRenderer\Source\circuits</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\Libs\rt-wdf_lib\Libs\rt-wdf\rt-wdf.h">
       <Filter>wdfRenderer\Source\Libs\rt-wdf</Filter>
     </ClInclude>

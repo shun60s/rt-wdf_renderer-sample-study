@@ -1864,6 +1864,7 @@
     <ClInclude Include="..\..\..\Circuits\wdfJTM45Tree.hpp"/>
     <ClInclude Include="..\..\..\Circuits\wdfSwitchTree.hpp"/>
     <ClInclude Include="..\..\..\Circuits\wdfTonestackTree.hpp"/>
+    <ClInclude Include="..\..\..\Circuits\wdfTwoTriodeAmpTree.hpp"/>
     <ClInclude Include="..\..\..\Libs\rt-wdf_lib\Libs\rt-wdf\rt-wdf.h"/>
     <ClInclude Include="..\..\..\Libs\rt-wdf_lib\Libs\rt-wdf\rt-wdf_nlModels.h"/>
     <ClInclude Include="..\..\..\Libs\rt-wdf_lib\Libs\rt-wdf\rt-wdf_nlSolvers.h"/>

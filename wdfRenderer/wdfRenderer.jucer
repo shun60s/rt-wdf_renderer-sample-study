@@ -16,6 +16,8 @@
               file="../Circuits/wdfSwitchTree.hpp"/>
         <FILE id="v4sCyy" name="wdfTonestackTree.hpp" compile="0" resource="0"
               file="../Circuits/wdfTonestackTree.hpp"/>
+        <FILE id="A8gVwW" name="wdfTwoTriodeAmpTree.hpp" compile="0" resource="0"
+              file="../Circuits/wdfTwoTriodeAmpTree.hpp"/>
       </GROUP>
       <GROUP id="{D5CD6E95-5C7A-B2CF-6527-0F7EFB46EA5E}" name="Libs">
         <GROUP id="{F4744432-9493-AE32-39FF-9E35743F3405}" name="rt-wdf">
