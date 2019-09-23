@@ -13,6 +13,7 @@ Windows10 + Visual Studio Community 2017の環境で動かすために変更し�
 - Input Gain Controlの有効化。 wdfCCTAx1Tree.hpp wdfCCTAx4Tree.hpp
 - downsamplingの無効化。 MainComponent.cpp RenderThread.cpp
 - VisualStudio2017の追加。　wdfRenderer.jucer
+- triode モデルの6K6　を追加　rt-wdf_lib  
 
 upsampleして、WDFを計算した後、downsampleすると　プログラムがハングアップするので、
 downsampleの方は無効にしました。   
@@ -23,6 +24,7 @@ armadillo-9.500.2の中のblas_win64_MT.dll lapack_win64_MT.dllを使いまし�
 - vcxプロジェクトファイル Builds/VisualStudio2017  
 - Fender Bassman tone stackのR-type adaptorのS-Matrixの計算  ToneStack_R-type_S-Matrix_compute  
 - 簡単な３極真空管Triodeアンプ回路のS E F M N 各Matrixの計算　Common_Cathode_Triode_Amp_SEFMN-Matrix_compute  
+- triode(12AX7) + triode(6K6) + 出力トランス（等価回路）のアンプ回路を追加　wdfTwoTriodeAmpTree.hpp Two_Triode_Amp_SEFMN-Matrix_compute  
 
 
 ## 参照したもの  
@@ -37,6 +39,7 @@ armadillo-9.500.2の中のblas_win64_MT.dll lapack_win64_MT.dllを使いまし�
 
 
 ## ライセンス  
+GPL v3  
 RT-WDF libraryがGPLのため、それに従うことになります。   
 Libsディレクトリーの中にある説明文を参照してください。  
 
