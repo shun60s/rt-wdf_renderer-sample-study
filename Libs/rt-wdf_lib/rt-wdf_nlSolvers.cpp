@@ -26,7 +26,7 @@
  ==============================================================================
     Change:
  
-  add 6K6, September-2019, Shun
+  add 6K6 and 2A3, September-2019, Shun
  
  ==============================================================================
  
@@ -92,7 +92,12 @@ nlNewtonSolver::nlNewtonSolver( std::vector<int> nlList,
                 nlModels.push_back(new triDwModel_6K6);
                 break;
             }
-            
+            // Triode Tubes: 2A3
+            case TRI_DW_2A3:            // Dempwolf triode model
+            {
+                nlModels.push_back(new triDwModel_2A3);
+                break;
+            }
             // Triode Tubes: this is as same as TRI_DW
             case TRI_DW_12AX7:            // Dempwolf triode model
             {
