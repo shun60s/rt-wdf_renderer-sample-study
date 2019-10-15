@@ -27,6 +27,8 @@
     Change:
  
   add 6K6 and 2A3, September-2019, Shun
+  add another 12AX7, October-2019, Shun
+  add ALPHA adjustment, October-2019, Shun
  
  ==============================================================================
  
@@ -98,10 +100,10 @@ nlNewtonSolver::nlNewtonSolver( std::vector<int> nlList,
                 nlModels.push_back(new triDwModel_2A3);
                 break;
             }
-            // Triode Tubes: this is as same as TRI_DW
-            case TRI_DW_12AX7:            // Dempwolf triode model
+            // Triode Tubes: 12AX7 (another model)
+            case TRI_DW_12AX7:          // Dempwolf triode model
             {
-                nlModels.push_back(new triDwModel);
+                nlModels.push_back(new triDwModel_12AX7);
                 break;
             }
 #endif
@@ -164,20 +166,40 @@ void nlNewtonSolver::nlSolve( vec* inWaves,
 
     vec xnew;
     double normFnew;
-
+#ifdef DEF_6K6
+    alpha = 1;
+#endif
+    
     while ( (normF >= TOL) && (iter < ITMAX) )
     {
+
+#ifdef DEF_6K6
+        vec p = - (*J).i() * (*F);
+        xnew = (*x0) + alpha * p;
+        evalNlModels(inWaves, myMatData, &xnew);
+        normFnew = norm(*F);
+        
+        // try smaller ALPHA one more time.
+        if(isnan( normFnew ) && (alpha > ALPHA2) ){
+            //printf ("nan error, in nlNewtonSolver::nlSolve \n");
+            alpha = ALPHA2;
+            xnew = (*x0) + alpha * p;
+            evalNlModels(inWaves, myMatData, &xnew);
+            normFnew = norm(*F);
+       }
+
+#else
         vec p = - (*J).i() * (*F);
         alpha = 1;
         xnew = (*x0) + alpha * p;
         evalNlModels(inWaves, myMatData, &xnew);
         normFnew = norm(*F);
-
+#endif
+        
         (*x0) = xnew;
         normF = normFnew;
         iter++;
-
-    //        printf(" %3g %9.2e %14.7e\n", iter, alpha, normF);
+        //printf(" %3g %9.2e %14.7e\n", iter, alpha, normF);
     }
 
     (*outWaves) = (myMatData->Mmat) * (*inWaves) + (myMatData->Nmat) * (*fNL);

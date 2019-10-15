@@ -27,6 +27,7 @@
  Change:
  
   add 6K6 and 2A3, September-2019, Shun
+  add another 12AX7, October-2019, Shun
  
 ===============================================================================
 */
@@ -165,7 +166,7 @@ void triDwModel::calculate( vec* fNL,
     const double Gg = 6.177E-4;
     const double Cg = 9.901;
     const double E = 1.314;
-    const double Ig0 = 8.025E-8;
+	const double Ig0 = 8.025E-8;
 
     const double vAC_mu = (*x)(*currentPort) / mu;
     const double vGC = (*x)((*currentPort)+1);
@@ -294,6 +295,68 @@ void triDwModel_2A3::calculate( vec* fNL,
     const double Cg = 9.90280133407671;
     const double E = 1.88151080433067;
     const double Ig0 = 0.0;
+
+    const double vAC_mu = (*x)(*currentPort) / mu;
+    const double vGC = (*x)((*currentPort)+1);
+
+
+    const double exp_Cg_vGC = exp( Cg * vGC );
+    const double log_1_exp_Cg_vGC_Cg = (log( 1 + exp_Cg_vGC ) / Cg);
+
+
+    // Ig
+    (*fNL)((*currentPort)+1) = Gg * pow( log_1_exp_Cg_vGC_Cg, E ) + Ig0;
+
+    // dIg / dvAC
+    (*JNL)(((*currentPort)+1),(*currentPort)) = 0;
+    // dIg / dvGC
+    (*JNL)(((*currentPort)+1),((*currentPort)+1)) = ( Gg * E * exp_Cg_vGC *
+                                                      pow( log_1_exp_Cg_vGC_Cg, (E-1)) ) /
+                                                    (1 + exp_Cg_vGC);
+
+
+    const double exp_C_vAC_mu_vGC = exp( C * ( vAC_mu + vGC ));
+    const double pow_log_1_exp_C_vAC_mu_vGC_C_y_1 = pow( (log(1 + exp_C_vAC_mu_vGC) / C), (y-1));
+
+    // Ik
+    (*fNL)(*currentPort) = G * pow( log( 1 + exp_C_vAC_mu_vGC ) / C , y ) - (*fNL)((*currentPort)+1);
+
+    // dIk / dvAC
+    (*JNL)((*currentPort),(*currentPort)) = ( G * y * exp_C_vAC_mu_vGC *
+                                              pow_log_1_exp_C_vAC_mu_vGC_C_y_1 ) /
+                                            (mu * (1 + exp_C_vAC_mu_vGC));
+    // dIk / dvGC
+    (*JNL)((*currentPort),((*currentPort)+1)) = ( G * y * exp_C_vAC_mu_vGC *
+                                                  pow_log_1_exp_C_vAC_mu_vGC_C_y_1 ) /
+                                                (1 + exp_C_vAC_mu_vGC) - (*JNL)(((*currentPort)+1),((*currentPort)+1));
+
+
+    (*currentPort) = (*currentPort)+getNumPorts();
+
+}
+
+
+// Another 12AX7 triode model
+triDwModel_12AX7::triDwModel_12AX7() : nlModel( 2 ) {
+
+
+}
+
+//----------------------------------------------------------------------
+void triDwModel_12AX7::calculate( vec* fNL,
+                            mat* JNL,
+                            vec* x,
+                            int* currentPort) {
+
+    const double G = 0.00184750517016318;
+    const double C = 2.14154268010387;
+    const double mu = 96.947467556778;
+    const double y = 1.25868266866655;
+
+    const double Gg = 0.000109362969418977;
+    const double Cg = 9.90280630980345;
+    const double E = 2.1398647831946;
+	const double Ig0 = 0.0;  // set 0. to avoid  unblance of differential amp input
 
     const double vAC_mu = (*x)(*currentPort) / mu;
     const double vGC = (*x)((*currentPort)+1);

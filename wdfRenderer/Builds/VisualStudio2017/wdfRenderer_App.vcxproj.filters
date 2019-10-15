@@ -2265,6 +2265,12 @@
     <ClInclude Include="..\..\..\Circuits\wdfJTM45Tree.hpp">
       <Filter>wdfRenderer\Source\circuits</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Circuits\wdfSadouPushPushTriodeAmpTree.hpp">
+      <Filter>wdfRenderer\Source\circuits</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Circuits\wdfSadouPushPushVCVSConnectionTriodeAmpTree.hpp">
+      <Filter>wdfRenderer\Source\circuits</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\Circuits\wdfSwitchTree.hpp">
       <Filter>wdfRenderer\Source\circuits</Filter>
     </ClInclude>

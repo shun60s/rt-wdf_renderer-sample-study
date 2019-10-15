@@ -12,6 +12,10 @@
               file="../Circuits/wdfCCTAx4Tree.hpp"/>
         <FILE id="EThCpk" name="wdfJTM45Tree.hpp" compile="0" resource="0"
               file="../Circuits/wdfJTM45Tree.hpp"/>
+        <FILE id="HjcNci" name="wdfSadouPushPushTriodeAmpTree.hpp" compile="0"
+              resource="0" file="../Circuits/wdfSadouPushPushTriodeAmpTree.hpp"/>
+        <FILE id="uopZSw" name="wdfSadouPushPushVCVSConnectionTriodeAmpTree.hpp"
+              compile="0" resource="0" file="../Circuits/wdfSadouPushPushVCVSConnectionTriodeAmpTree.hpp"/>
         <FILE id="gvwkvN" name="wdfSwitchTree.hpp" compile="0" resource="0"
               file="../Circuits/wdfSwitchTree.hpp"/>
         <FILE id="v4sCyy" name="wdfTonestackTree.hpp" compile="0" resource="0"

@@ -10,6 +10,7 @@
 Change: 
   build for vs2017, disable downsample and etc , July-2019, Shun
   add two triode amp, September, Shun 
+  add triode sadou push-pull amp, October-2019, Shun
 
 Caution:
  At present, upsample and then downsample, except same sampling rate,
@@ -42,6 +43,8 @@ using namespace juce;
 
 #ifdef TwoTriodeAmp
 #include "../../Circuits/wdfTwoTriodeAmpTree.hpp"
+#include "../../Circuits/wdfSadouPushPushTriodeAmpTree.hpp"
+#include "../../Circuits/wdfSadouPushPushVCVSConnectionTriodeAmpTree.hpp"
 #endif
 
 
@@ -94,6 +97,8 @@ public:
         wdfTreeSelector.addItem("Switch",5);
 #ifdef TwoTriodeAmp
         wdfTreeSelector.addItem("Two Triode Amp",6);
+        wdfTreeSelector.addItem("Sadou PushPull Triode Amp",7);
+        wdfTreeSelector.addItem("Sadou PushPull VCVSConnection Triode Amp",8);
 #endif
         wdfTreeSelector.addListener(this);
         
@@ -121,6 +126,8 @@ public:
         wdfTreeArray[4].reset(new wdfSwitchTree());
 #ifdef TwoTriodeAmp
         wdfTreeArray[5].reset(new wdfTwoTriodeAmpTree());
+        wdfTreeArray[6].reset(new wdfSadouPushPullTriodeAmpTree());
+        wdfTreeArray[7].reset(new wdfSadouPushPullVCVSconTriodeAmpTree());
 #endif
         for(auto &wdfTree : wdfTreeArray){
             wdfTree->initTree();
@@ -290,7 +297,7 @@ protected:
 
     wdfTree* myWdfTree;
 #ifdef TwoTriodeAmp
-    std::array<std::unique_ptr<wdfTree>, 6> wdfTreeArray;
+    std::array<std::unique_ptr<wdfTree>, 8> wdfTreeArray;
 #else
     std::array<std::unique_ptr<wdfTree>, 5> wdfTreeArray;
 #endif

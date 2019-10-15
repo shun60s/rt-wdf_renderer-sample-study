@@ -1862,6 +1862,8 @@
     <ClInclude Include="..\..\..\Circuits\wdfCCTAx1Tree.hpp"/>
     <ClInclude Include="..\..\..\Circuits\wdfCCTAx4Tree.hpp"/>
     <ClInclude Include="..\..\..\Circuits\wdfJTM45Tree.hpp"/>
+    <ClInclude Include="..\..\..\Circuits\wdfSadouPushPushTriodeAmpTree.hpp"/>
+    <ClInclude Include="..\..\..\Circuits\wdfSadouPushPushVCVSConnectionTriodeAmpTree.hpp"/>
     <ClInclude Include="..\..\..\Circuits\wdfSwitchTree.hpp"/>
     <ClInclude Include="..\..\..\Circuits\wdfTonestackTree.hpp"/>
     <ClInclude Include="..\..\..\Circuits\wdfTwoTriodeAmpTree.hpp"/>

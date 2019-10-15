@@ -27,6 +27,7 @@
   Change:
  
   add 6K6 and 2A3, September-2019, Shun
+  add another 12AX7, October-2019, Shun
  
  ==============================================================================
 */
@@ -61,8 +62,7 @@
 /** Enum to specify Dempwolf triode tube model in wdfRootNL */
 #define TRI_DW_6K6      21
 #define TRI_DW_2A3      22
-
-#define TRI_DW_12AX7    29  // This is as same as TRI_DW  20
+#define TRI_DW_12AX7    23
 
 #endif
 
@@ -76,6 +76,7 @@ class triDwModel;
 #ifdef DEF_6K6
 class triDwModel_6K6;
 class triDwModel_2A3;
+class triDwModel_12AX7;
 #endif
 
 
@@ -323,6 +324,40 @@ public:
      ("A physically-motivated triode model for circuit simulations")
     */
     triDwModel_2A3();
+
+    //----------------------------------------------------------------------
+    /**
+     Calculate the non-linear current and it's Jacobian according to an
+     input voltage.
+
+     @param *fNL             is a pointer to store result of fNL(x).
+                             This is a current.
+     @param *JNL             is a pointer to store the result of the
+                             Jacobian of fNL(x).
+     @param *x               is a pointer to read the input value x.
+                             This is a voltage.
+     @param *currentPort     is a pointer to the first reading /
+                             writing position in fNL, JNL and x.
+    */
+    void calculate( vec* fNL,
+                    mat* JNL,
+                    vec* x,
+                    int* currentPort );
+
+};
+
+//==============================================================================
+class triDwModel_12AX7 : public nlModel {
+
+public:
+    //----------------------------------------------------------------------
+    /**
+     Triode tube model class.
+
+     Triode model according to Dempwolf et al
+     ("A physically-motivated triode model for circuit simulations")
+    */
+    triDwModel_12AX7();
 
     //----------------------------------------------------------------------
     /**
