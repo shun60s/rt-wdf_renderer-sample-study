@@ -28,7 +28,14 @@ armadillo-9.500.2の中のblas_win64_MT.dll lapack_win64_MT.dllを使いまし�
 - 簡単な３極真空管Triodeアンプ回路のS E F M N 各Matrixの計算　Common_Cathode_Triode_Amp_SEFMN-Matrix_compute  
 - triode(12AX7) + triode(6K6) + 出力トランス（等価回路）のアンプ回路を追加　wdfTwoTriodeAmpTree.hpp Two_Triode_Amp_SEFMN-Matrix_compute  
 - 差動入力triode(12AX7) プッシュプルtriode(2A3) アンプ回路を追加　wdfSadouPushPullTriodeAmpTree.hpp Triode_Sadou_PushPull_Amp_SEFMN-Matrix_compute  
-- 差動入力triode(12AX7) とプッシュプルtriode(2A3) をVCVSつないだものを追加　wdfSadouPushPushVCVSConnectionTriodeAmpTree.hpp Triode_Sadou_PushPull_VCVS-connect_Amp_SEFMN-Matrix_compute  
+- 差動入力triode(12AX7) とプッシュプルtriode(2A3) をVCVSで結合した回路を追加　wdfSadouPushPushVCVSConnectionTriodeAmpTree.hpp Triode_Sadou_PushPull_VCVS-connect_Amp_SEFMN-Matrix_compute  
+  
+  
+![figure2](docs/Two_Triode_Amp_Circuit-small_explain.png)
+![figure3](docs/Triode_Sadou_PushPull_Amp_Circuit-small_explain.png)
+![figure4](docs/Triode_Sadou_PushPull_VCVS-connect_Amp_Circuit-small_explain.png)
+   
+  
 
 ## 参照したもの  
 
@@ -56,7 +63,7 @@ Wave Digital Filterを使ってシュミレーションした真空管アンプ�
 真空管は非線形素子なのでサンプリング周波数を４倍に上げて計算している。  
 JTM45は歪ませる設定(input gain, volume)にしている。  
 
-![figure1](in_output_wav_comparison.png)  
+![figure1](docs/in_output_wav_comparison.png)  
   
   
 
