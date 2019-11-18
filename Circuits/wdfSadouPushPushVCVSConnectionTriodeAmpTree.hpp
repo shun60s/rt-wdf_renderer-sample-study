@@ -142,7 +142,7 @@ public:
         outputGain.name = "Output Gain";
         outputGain.ID = 1;
         outputGain.type = doubleParam;
-        outputGain.value = 1.0;
+        outputGain.value = 0.732;
         outputGain.units = " ";
         outputGain.lowLim = 0;
         outputGain.highLim = 4;
