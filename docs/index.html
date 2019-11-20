@@ -20,6 +20,7 @@ Windows10 + Visual Studio Community 2017の環境で動かすために変更し�
 <h2>主な変更点  </h2>
 
 <ul>
+<li>stereo (2 channel)入力に対応 source</li>
 <li>出力ファイル名を変更。   RenderThread.cpp</li>
 <li>CSVファイル出力の無効化。RenderThread.cpp</li>
 <li>Input Gain Controlの有効化。 wdfCCTAx1Tree.hpp wdfCCTAx4Tree.hpp</li>
@@ -27,11 +28,11 @@ Windows10 + Visual Studio Community 2017の環境で動かすために変更し�
 <li>VisualStudio2017の追加。　wdfRenderer.jucer</li>
 <li>triode モデルの6K6　を追加　rt-wdf_lib  </li>
 <li>triode モデルの2A3　を追加　rt-wdf_lib  </li>
-<li>Newton法の反復計算の係数alphaの調整を追加 rt-wdf_lib<br />
-</li></ul>
-
-upsampleして、WDFを計算した後、downsampleすると　プログラムがハングアップするので、
-downsampleの方は無効にしました。 <br />
+<li>Newton法の反復計算の係数alphaの調整を追加 rt-wdf_lib</li>
+<li>Resampler機能の削除　必要に応じて外部のResamplerを使うこと</li>
+<li>表示の大きさ変更</li>
+</ul>
+<br />
 armadillo-9.500.2の中のblas_win64_MT.dll lapack_win64_MT.dllを使いました。<br />
 
 <h2>主な追加点  </h2>
@@ -42,9 +43,11 @@ armadillo-9.500.2の中のblas_win64_MT.dll lapack_win64_MT.dllを使いまし�
 <li>簡単な３極真空管Triodeアンプ回路のS E F M N 各Matrixの計算　Common_Cathode_Triode_Amp_SEFMN-Matrix_compute  </li>
 <li>triode(12AX7) + triode(6K6) + 出力トランス（等価回路）のアンプ回路を追加　wdfTwoTriodeAmpTree.hpp Two_Triode_Amp_SEFMN-Matrix_compute  </li>
 <li>差動入力triode(12AX7) プッシュプルtriode(2A3) アンプ回路を追加　wdfSadouPushPullTriodeAmpTree.hpp Triode_Sadou_PushPull_Amp_SEFMN-Matrix_compute  </li>
-<li>差動入力triode(12AX7) とプッシュプルtriode(2A3) をVCVSで結合した回路を追加　wdfSadouPushPushVCVSConnectionTriodeAmpTree.hpp Triode_Sadou_PushPull_VCVS-connect_Amp_SEFMN-Matrix_compute  <br />
-
-</li></ul>
+<li>差動入力triode(12AX7) とプッシュプルtriode(2A3) をVCVSで結合した回路を追加　wdfSadouPushPushVCVSConnectionTriodeAmpTree.hpp Triode_Sadou_PushPull_VCVS-connect_Amp_SEFMN-Matrix_compute  </li>
+<li>channel毎にwdfを並列計算  openmpを使っているためコンパイラのOpenMPのサポートを有効にすること　RenderThread.cpp
+</li>
+</ul>
+<br />
 <img src="Two_Triode_Amp_Circuit-small_explain.png" alt="figure2" ><br />
 <img src="Triode_Sadou_PushPull_Amp_Circuit-small_explain.png" alt="figure3" ><br />
 <img src="Triode_Sadou_PushPull_VCVS-connect_Amp_Circuit-small_explain.png" alt="figure4" ><br />
@@ -59,7 +62,6 @@ armadillo-9.500.2の中のblas_win64_MT.dll lapack_win64_MT.dllを使いまし�
 <li><a href="https://github.com/RT-WDF/rt-wdf_renderer">rt-wdf_render</a></li>
 <li><a href="https://github.com/RT-WDF/rt-wdf_lib">RT-WDF library</a></li>
 <li><a href="https://github.com/WeAreROLI/JUCE">JUCE</a></li>
-<li><a href="https://github.com/avaneev/r8brain-free-src">r8brain-free-src</a></li>
 <li><a href="http://arma.sourceforge.net/download.html">Armadillo</a>
 </li></ul>
 

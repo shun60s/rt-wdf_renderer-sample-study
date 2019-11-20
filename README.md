@@ -3,11 +3,11 @@
 ## 概要  
 
 Wave Digital Filterの動作サンプル[rt-wdf_render](https://github.com/RT-WDF/rt-wdf_renderer)を
-Windows10 + Visual Studio Community 2017の環境で動かすために変更したもの。 
-
+Windows10 + Visual Studio Community 2017の環境で動かすために変更したもの。  
 
 ## 主な変更点  
 
+- stereo (2 channel)入力に対応 source
 - 出力ファイル名を変更。   RenderThread.cpp
 - CSVファイル出力の無効化。RenderThread.cpp
 - Input Gain Controlの有効化。 wdfCCTAx1Tree.hpp wdfCCTAx4Tree.hpp
@@ -16,9 +16,9 @@ Windows10 + Visual Studio Community 2017の環境で動かすために変更し�
 - triode モデルの6K6　を追加　rt-wdf_lib  
 - triode モデルの2A3　を追加　rt-wdf_lib  
 - Newton法の反復計算の係数alphaの調整を追加 rt-wdf_lib  
-
-upsampleして、WDFを計算した後、downsampleすると　プログラムがハングアップするので、
-downsampleの方は無効にしました。   
+- Resampler機能の削除　必要に応じて外部のResamplerを使うこと
+- 表示の大きさの変更
+  
 armadillo-9.500.2の中のblas_win64_MT.dll lapack_win64_MT.dllを使いました。  
 
 ## 主な追加点  
@@ -29,7 +29,8 @@ armadillo-9.500.2の中のblas_win64_MT.dll lapack_win64_MT.dllを使いまし�
 - triode(12AX7) + triode(6K6) + 出力トランス（等価回路）のアンプ回路を追加　wdfTwoTriodeAmpTree.hpp Two_Triode_Amp_SEFMN-Matrix_compute  
 - 差動入力triode(12AX7) プッシュプルtriode(2A3) アンプ回路を追加　wdfSadouPushPullTriodeAmpTree.hpp Triode_Sadou_PushPull_Amp_SEFMN-Matrix_compute  
 - 差動入力triode(12AX7) とプッシュプルtriode(2A3) をVCVSで結合した回路を追加　wdfSadouPushPushVCVSConnectionTriodeAmpTree.hpp Triode_Sadou_PushPull_VCVS-connect_Amp_SEFMN-Matrix_compute  
-  
+- channel毎にwdfを並列計算  openmpを使っているためコンパイラのOpenMPのサポートを有効にすること　RenderThread.cpp
+
   
 ![figure2](docs/Two_Triode_Amp_Circuit-small_explain.png)
 ![figure3](docs/Triode_Sadou_PushPull_Amp_Circuit-small_explain.png)
@@ -44,7 +45,6 @@ armadillo-9.500.2の中のblas_win64_MT.dll lapack_win64_MT.dllを使いまし�
 - [rt-wdf_render](https://github.com/RT-WDF/rt-wdf_renderer)
 - [RT-WDF library](https://github.com/RT-WDF/rt-wdf_lib)
 - [JUCE](https://github.com/WeAreROLI/JUCE)
-- [r8brain-free-src](https://github.com/avaneev/r8brain-free-src)
 - [Armadillo](http://arma.sourceforge.net/download.html)
 
 
@@ -66,7 +66,6 @@ JTM45は歪ませる設定(input gain, volume)にしている。
 ![figure1](docs/in_output_wav_comparison.png)  
   
   
-
 
 
 

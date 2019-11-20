@@ -11,10 +11,11 @@ Change:
   build for vs2017, disable downsample and etc , July-2019, Shun
   add two triode amp, September, Shun 
   add triode sadou push-pull amp, October-2019, Shun
-
-Caution:
- At present, upsample and then downsample, except same sampling rate,
- program will stop down.
+  add wdfSadouPushPushVCVSConnectionTriodeAmpTree2, October-2019, Shun
+  delete Resampler fucntion, November-2019, Shun
+  stereo input available,    November-2019, Shun
+  layout size change,        November-2019, Shun
+  
 ===============================================================================
 */
  
@@ -30,9 +31,6 @@ Caution:
 
 using namespace juce;
 
-#include "../../Libs/r8brain-free-src/CDSPResampler.h"
-
-#define TwoTriodeAmp 1
 
 // Circuits
 #include "../../Circuits/wdfCCTAx1Tree.hpp"
@@ -41,11 +39,10 @@ using namespace juce;
 #include "../../Circuits/wdfSwitchTree.hpp"
 #include "../../Circuits/wdfTonestackTree.hpp"
 
-#ifdef TwoTriodeAmp
 #include "../../Circuits/wdfTwoTriodeAmpTree.hpp"
 #include "../../Circuits/wdfSadouPushPushTriodeAmpTree.hpp"
 #include "../../Circuits/wdfSadouPushPushVCVSConnectionTriodeAmpTree.hpp"
-#endif
+#include "../../Circuits/wdfSadouPushPushVCVSConnectionTriodeAmpTree2.hpp"
 
 
 //==============================================================================
@@ -89,17 +86,19 @@ public:
         
         addAndMakeVisible (&wdfTreeSelector);
         
-        wdfTreeSelector.addItem("Tone Stack",1);
-        wdfTreeSelector.setSelectedId(1);
-        wdfTreeSelector.addItem("CCTAx1",2);
-        wdfTreeSelector.addItem("CCTAx4",3);
-        wdfTreeSelector.addItem("JTM45",4);
-        wdfTreeSelector.addItem("Switch",5);
-#ifdef TwoTriodeAmp
-        wdfTreeSelector.addItem("Two Triode Amp",6);
-        wdfTreeSelector.addItem("Sadou PushPull Triode Amp",7);
-        wdfTreeSelector.addItem("Sadou PushPull VCVSConnection Triode Amp",8);
-#endif
+        wdfTreeSelector.addItem("Tone Stack 44100Hz",1);
+        wdfTreeSelector.addItem("CCTAx1 44100Hz",2);
+        wdfTreeSelector.addItem("CCTAx4 176400Hz",3);
+        wdfTreeSelector.addItem("JTM45 176400Hz",4);
+        wdfTreeSelector.addItem("Switch 44100Hz",5);
+        wdfTreeSelector.addItem("Two Triode Amp 44100Hz",6);
+        wdfTreeSelector.addItem("Sadou PushPull Triode Amp 44100Hz",7);
+        wdfTreeSelector.addItem("Sadou PushPull 44100Hz VCVSConnection Triode Amp",8);
+#define SP8VTA 8
+#define START_ID 8
+        wdfTreeSelector.addItem("Sadou PushPull 88200Hz VCVSConnection Triode Amp", SP8VTA+1);
+        wdfTreeSelector.setSelectedId(START_ID);
+
         wdfTreeSelector.addListener(this);
         
         addAndMakeVisible (&renderButton);
@@ -124,18 +123,36 @@ public:
         wdfTreeArray[2].reset(new wdfCCTAx4Tree());
         wdfTreeArray[3].reset(new wdfJTM45Tree());
         wdfTreeArray[4].reset(new wdfSwitchTree());
-#ifdef TwoTriodeAmp
+
+        wdfTreeArray2[0].reset(new wdfTonestackTree());
+        wdfTreeArray2[1].reset(new wdfCCTAx1Tree());
+        wdfTreeArray2[2].reset(new wdfCCTAx4Tree());
+        wdfTreeArray2[3].reset(new wdfJTM45Tree());
+        wdfTreeArray2[4].reset(new wdfSwitchTree());
+
+
         wdfTreeArray[5].reset(new wdfTwoTriodeAmpTree());
         wdfTreeArray[6].reset(new wdfSadouPushPullTriodeAmpTree());
         wdfTreeArray[7].reset(new wdfSadouPushPullVCVSconTriodeAmpTree());
-#endif
+        wdfTreeArray[8].reset(new wdfSadouPushPullVCVSconTriodeAmpTree2());
+        
+        wdfTreeArray2[5].reset(new wdfTwoTriodeAmpTree());
+        wdfTreeArray2[6].reset(new wdfSadouPushPullTriodeAmpTree());
+        wdfTreeArray2[7].reset(new wdfSadouPushPullVCVSconTriodeAmpTree());
+        wdfTreeArray2[8].reset(new wdfSadouPushPullVCVSconTriodeAmpTree2());
+
         for(auto &wdfTree : wdfTreeArray){
             wdfTree->initTree();
         }
         
         
-        UpdateWdfTree(0);
+        for(auto &wdfTree : wdfTreeArray2){
+            wdfTree->initTree();
+        }
         
+
+        UpdateWdfTree(START_ID-1);
+
 
         /*
         writeLogLine("Created WDF tree");
@@ -144,7 +161,7 @@ public:
         */
         
         
-        setSize (500, 560);
+        setSize (600, 460);
         writeLogLine("RT-WDF wav-file Renderer. Initializing..");
 
         formatManager.registerBasicFormats();
@@ -206,7 +223,7 @@ public:
 		juce::Rectangle<int> mainScreen = getLocalBounds().reduced(5);   // add juce:: for vc2017 ...
 
         // Parameter positioning
-        juce::Rectangle<int> paramRect = mainScreen.removeFromTop(345);
+        juce::Rectangle<int> paramRect = mainScreen.removeFromTop(245);
 
         paramRect = paramRect.withTrimmedTop(20);
         groupParams.setBounds(paramRect);
@@ -246,6 +263,7 @@ public:
         for (size_t i = 0; i < paramComponents.size(); i++) {
             if (slider == paramComponents[i].get()) {
                 myWdfTree->setParam(i,slider->getValue());
+				myWdfTree2->setParam(i, slider->getValue());
             }
         }
     }
@@ -296,82 +314,89 @@ protected:
     //==============================================================================
 
     wdfTree* myWdfTree;
-#ifdef TwoTriodeAmp
-    std::array<std::unique_ptr<wdfTree>, 8> wdfTreeArray;
-#else
-    std::array<std::unique_ptr<wdfTree>, 5> wdfTreeArray;
-#endif
+    wdfTree* myWdfTree2;
+    std::array<std::unique_ptr<wdfTree>, SP8VTA+1> wdfTreeArray;
+    std::array<std::unique_ptr<wdfTree>, SP8VTA+1> wdfTreeArray2;
+
     AudioDeviceManager myDeviceManager;
 
     GroupComponent groupParams;
     GroupComponent groupLogger;
     ScopedPointer<TextEditor> Logger;
 
-    r8b::CDSPResampler24* upSmplr24 = NULL;
-    r8b::CDSPResampler24* downSmplr24 = NULL;
 
-    double* upBuf = NULL;
-    double* downBuf = NULL;
+	float* downBuf  = nullptr;
+	float* downBuf2 = nullptr;
+	float* upBuf    = nullptr;
+	float* upBuf2   = nullptr;
 
     int64 startupTime;
 
     RenderParams myRenderParams;
     RenderThread myRenderer;
 
+	AudioFormatReader* reader;
+
 
     void openButtonClicked() {
-        FileChooser chooser ("Select a Wave file (mono) to play...",
+        FileChooser chooser ("Select a Wave file to play...",
                              File::nonexistent,
                              "*.wav");
 
         if (chooser.browseForFileToOpen()) {
             File file (chooser.getResult());
-            AudioFormatReader* reader = formatManager.createReaderFor (file);
+            inFile=file.getFileNameWithoutExtension();
+            
+            reader = formatManager.createReaderFor (file);
 
             if (reader) {
                 double Fs = reader->sampleRate;
                 myRenderParams.inputSampleRate = Fs;
                 myRenderParams.outputSampleRate = Fs;
-                transportSource.prepareToPlay (512, Fs); //BS TODO
+                transportSource.prepareToPlay (BLOCK_SIZE, Fs); //BS TODO
 
+				myRenderParams.numChannels = reader->numChannels;
+				writeLogLine("num Channel: "+String(myRenderParams.numChannels ));
+				
+				if ( reader->numChannels > 2) {
+					writeLogLine("Error: please select mono or stereo wav file");
+				}
+                else if( Fs != myWdfTree->getSamplerate()){
+                 	writeLogLine("Error: please select same Fs wav file as WdfTree, "+String(myWdfTree->getSamplerate())+"Hz");
+                }
+                else
+                {
+					writeLogLine("Base samplerate: " + String(Fs) + "Hz");
+					renderButton.setEnabled (true);
+                }
+               
                 ScopedPointer<AudioFormatReaderSource> newSource = new AudioFormatReaderSource (reader, true);
                 transportSource.setSource (newSource, 0, nullptr, reader->sampleRate);
-                renderButton.setEnabled (true);
-
+                
                 myWdfTree->adaptTree( );
+                myWdfTree2->adaptTree( );
+      
                 writeLogLine("'"+String(file.getFileName())+"' opened. Duration: "+String(transportSource.getLengthInSeconds())+"s");
 
                 oversamplingRatio = myWdfTree->getSamplerate() / Fs;
-                writeLogLine("Base samplerate: "+String(Fs)+"Hz");
-                writeLogLine("wdfTree adapted for effective samplerate: "+String(myWdfTree->getSamplerate())+"Hz.");
-                writeLogLine("Resulting OX="+String(oversamplingRatio));
-
-                if(upSmplr24) {
-                    delete upSmplr24;
-                    delete[] upBuf;
-                }
-
-                if(downSmplr24) {
-                    delete downSmplr24;
-                    delete[] downBuf;
-                }
-
-                upSmplr24 = new r8b::CDSPResampler24(Fs, myWdfTree->getSamplerate(), 512); //BS TODO
-// disable downsample
-#if 1
-                downSmplr24 = new r8b::CDSPResampler24(myWdfTree->getSamplerate(), myWdfTree->getSamplerate(), 512); //BS TODO
+                //writeLogLine("Base samplerate: "+String(Fs)+"Hz");
+                //writeLogLine("wdfTree adapted for effective samplerate: "+String(myWdfTree->getSamplerate())+"Hz.");
+                //writeLogLine("Resulting OX="+String(oversamplingRatio));
+            
                 myRenderParams.outputSampleRate = myWdfTree->getSamplerate();
-                writeLogLine("warning: out is  WdfTree samplerate. downsample will not be done.");
-#else
-                downSmplr24 = new r8b::CDSPResampler24(myWdfTree->getSamplerate(), Fs, 512); //BS TODO
-#endif
-                size_t downBufSize = ceil(oversamplingRatio*512);
-                upBuf = new double[512]; //BS TODO
-                downBuf = new double[downBufSize]; //BS TODO
 
-                writeLogLine("Resamplers set up.");
+                size_t downBufSize = ceil(oversamplingRatio * BLOCK_SIZE);
 
-
+                if( downBuf)  delete[] downBuf;
+                if( downBuf2) delete[] downBuf2;
+                if( upBuf )   delete[] upBuf;
+                if( upBuf2 )  delete[] upBuf2;
+                	
+                downBuf = new float[downBufSize]; //BS TODO
+				downBuf2 = new float[downBufSize]; //BS TODO
+                upBuf = new float[downBufSize]; //BS TODO
+				upBuf2 = new float[downBufSize]; //BS TODO
+               
                 readerSource = newSource.release();
             }
         }
@@ -379,16 +404,26 @@ protected:
 
     void renderButtonClicked() {
         myRenderParams.myWdfTree = myWdfTree;
-        myRenderParams.upSmplr24 = upSmplr24;
-        myRenderParams.downSmplr24 = downSmplr24;
-        myRenderParams.transportSource = &transportSource;
-        myRenderParams.upBuf = upBuf;
-        myRenderParams.downBuf = downBuf;
-        myRenderParams.blockSize = 512; //TODO
+        
+        // Set nullptr if mono here
+        if( myRenderParams.numChannels ==1)  myWdfTree2 = nullptr; 
+        
+        myRenderParams.myWdfTree2 = myWdfTree2;
+
+
+		myRenderParams.transportSource = &transportSource;
+		myRenderParams.downBuf = downBuf;
+		myRenderParams.downBuf2 = downBuf2;
+		myRenderParams.upBuf = upBuf;
+		myRenderParams.upBuf2 = upBuf2;
+
+        myRenderParams.blockSize = BLOCK_SIZE; //TODO
         myRenderParams.treeSampleRate = myWdfTree->getSamplerate();
         
-        renderButton.setEnabled (false);
+        myRenderParams.inFile=inFile;
         
+        renderButton.setEnabled (false);
+         
         myRenderer.setRenderParamsPtr( &myRenderParams );
         writeLogLine("Rendering started");
 
@@ -404,7 +439,7 @@ protected:
         {
             writeLogLine("Rendering aborted");
         }
-        myLookAndFeel.playAlertSound();
+        // myLookAndFeel.playAlertSound();
     }
 
     void createParamControls(const std::vector<paramData>& paramsIn) {
@@ -443,17 +478,18 @@ protected:
 
     
     void UpdateWdfTree(int inIndex)
-    {
+    {     
         
         myWdfTree = wdfTreeArray[inIndex].get();
-        
+        myWdfTree2 = wdfTreeArray2[inIndex].get();
         myWdfTree->adaptTree( );
-        
-        writeLogLine("Created WDF tree");
+        myWdfTree2->adaptTree( );
+        writeLogLine("Created two WDF tree");
         groupParams.setText(myWdfTree->getTreeIdentifier());
         writeLogLine(String("wdfTree description: ") + String(myWdfTree->getTreeIdentifier()));
-        
         createParamControls(myWdfTree->getParams());
+        
+        
     }
 
 
@@ -465,6 +501,7 @@ protected:
     std::vector<std::unique_ptr<Component> > paramComponents;
     std::vector<std::unique_ptr<Component> > paramLabels;
     double oversamplingRatio;
+    String inFile;
 
     AudioFormatManager formatManager;
     ScopedPointer<AudioFormatReaderSource> readerSource;

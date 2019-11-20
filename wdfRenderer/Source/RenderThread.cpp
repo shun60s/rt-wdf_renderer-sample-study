@@ -12,14 +12,15 @@
 ===============================================================================
 Change: 
   output file name for windows, disable CSV output and etc , July-2019, Shun
+  output file name is  append -output-rtwdf to input file name, November-2019, Shun
+  delete Resampler fucntion, November-2019, Shun
+  stereo input available,    November-2019, Shun
+  wdf compute parallel by openmp, November-2019, Shun
 
-Caution:
- At present, upsample and then downsample, except same sampling rate,
- program will stop down.
 ===============================================================================
 */
 
-
+#include <omp.h> 
 #include "RenderThread.h"
 
 
@@ -35,29 +36,30 @@ void RenderThread::run( )
 
     myRenderParams->totalBlocks = numBlocks;
 
+   AudioSampleBuffer buf(myRenderParams->numChannels, blockSize);  // 32bit float  AudioBuffer (int numChannelsToAllocate, int numSamplesToAllocate)
+   
+   AudioSourceChannelInfo myACHI(buf);
 
-    AudioSampleBuffer buf(1, blockSize);
-    AudioSourceChannelInfo myACHI( buf );
+ 
+
+
 
     WavAudioFormat wav;
 
-    File myFile ("output-rtwdf.wav");  // change output file name for windows 10
+    File myFile (myRenderParams->inFile + "-output-rtwdf.wav");  // change output file name for windows 10
     TemporaryFile tempFile(myFile);
     ScopedPointer <OutputStream> outStream (tempFile.getFile().createOutputStream());
 
-// disable CSV output
-#ifdef  CSV_OUT   
-    File myDatalogFile ("datalog.csv");
-    TemporaryFile tempDatalogFile(myDatalogFile);
-    ScopedPointer <OutputStream> tempDatalogFileStream(tempDatalogFile.getFile().createOutputStream());
-#endif
     if (outStream != nullptr)
     {
-        ScopedPointer <AudioFormatWriter> writer (wav.createWriterFor (outStream, myRenderParams->outputSampleRate, 1, myRenderParams->outputBitDepth, NULL, 0));
-        if (writer != nullptr)
+
+		 ScopedPointer <AudioFormatWriter> writer(wav.createWriterFor(outStream, myRenderParams->outputSampleRate, myRenderParams->numChannels, myRenderParams->outputBitDepth, NULL, 0));
+  
+		if (writer != nullptr)
         {
             outStream.release();
             float outVoltage[1];
+            float outVoltage2[1];
 
             myRenderParams->transportSource->setPosition(0);
             myRenderParams->transportSource->start();
@@ -75,42 +77,56 @@ void RenderThread::run( )
                     tempFile.deleteTemporaryFile();
                     writer = nullptr;
 
-#ifdef CSV_OUT
-                    tempDatalogFileStream = nullptr;
-                    tempDatalogFile.deleteTemporaryFile();
-#endif
                     return;
                 }
 
                 myRenderParams->transportSource->getNextAudioBlock( myACHI );
 
-                for (int sample = 0; sample < myACHI.numSamples; sample++)
-                {
-                    myRenderParams->upBuf[sample] = (double)myACHI.buffer->getSample(0, sample);
-                }
-
-                double* upDataPtr;
-
-
                 double currentTime =  Time::getCurrentTime().toMilliseconds();
 
-                int numUpSamples = myRenderParams->upSmplr24->process(myRenderParams->upBuf, myACHI.numSamples, upDataPtr);
 
-
-                for (int sample = 0; sample < numUpSamples; sample++)
+             
+             
+                for (int sample = 0; sample < myACHI.numSamples; sample++)
                 {
-                    float inVoltage = (float) upDataPtr[sample];
-
-                    myRenderParams->myWdfTree->setInputValue(inVoltage);
-                    myRenderParams->myWdfTree->cycleWave();
-                    myRenderParams->downBuf[sample] = { (float)(myRenderParams->myWdfTree->getOutputValue()) };
+                    myRenderParams->upBuf[sample] = myACHI.buffer->getSample(0, sample);
+                   if( myRenderParams->numChannels ==2) {
+                    myRenderParams->upBuf2[sample] = myACHI.buffer->getSample(1, sample);
+                    }
                 }
 
+// openmp:  need openMP support Yes, /openmp flag
+				omp_set_num_threads(2);    // Due to stereo process, thread number is 2.
+#pragma omp parallel sections
+//#pragma omp parallel
+{
+	
+#pragma omp section
+   {
+                for (int sample = 0; sample < myACHI.numSamples; sample++)
+                {
+                    myRenderParams->myWdfTree->setInputValue(myRenderParams->upBuf[sample]  );
+                    myRenderParams->myWdfTree->cycleWave();
+                    myRenderParams->downBuf[sample] = { (float)(myRenderParams->myWdfTree->getOutputValue()) };
+                    
+                }
+   }
+#pragma omp section
+   {
+                for (int sample2 = 0; sample2 < myACHI.numSamples; sample2++)
+                {
+                    if( myRenderParams->numChannels ==2){
+                    myRenderParams->myWdfTree2->setInputValue(myRenderParams->upBuf2[sample2] );
+                    myRenderParams->myWdfTree2->cycleWave();
+                    myRenderParams->downBuf2[sample2] = { (float)(myRenderParams->myWdfTree2->getOutputValue()) };
+                    }
+                    else myRenderParams->downBuf2[sample2]=0.0;
 
-                double* downDataPtr;
-
-                int numDownSamples = myRenderParams->downSmplr24->process(myRenderParams->downBuf, numUpSamples, downDataPtr);
-
+                }
+   }
+}
+   
+   
                 double blockRenderTime = (Time::getCurrentTime().toMilliseconds() - currentTime)/(double)1000.0;
                 myRenderParams->renderTime += blockRenderTime;
                 if (blockRenderTime > blockTime)
@@ -119,16 +135,25 @@ void RenderThread::run( )
                 }
 
 
-
-                for (int sample = 0; sample < numDownSamples; sample++)
+/*
+                for (int sample = 0; sample < myACHI.numSamples; sample++)
                 {
-                    outVoltage[0] = { (float)(downDataPtr[sample]) };
-                    float const *const tmp[] = { outVoltage, 0 };
-                    writer->writeFromFloatArrays( tmp, 1, 1);
-#ifdef CSV_OUT
-                    tempDatalogFileStream->writeText(String(outVoltage[0]) + ",\n", false, false,"\\n");
-#endif              
+                    outVoltage[0] = { (myRenderParams->downBuf[sample])};
+                     outVoltage2[0] = { (myRenderParams->downBuf2[sample]) };
+                     //  outVoltage[0] = { (float)myRenderParams->downBuf[sample] };
+                     //  outVoltage2[0] = { (float)myRenderParams->downBuf2[sample] };
+                    // outVoltage[0] = { (float)myACHI.buffer->getSample(0, sample) };   // this is 1kHz ok
+                    // outVoltage2[0] = { (float)myACHI.buffer->getSample(1, sample) };  // this is 500Hz OK
+                    float const *const tmp[] = { outVoltage, outVoltage2,0 };
+                    writer->writeFromFloatArrays( tmp, myRenderParams->numChannels, 1);
+           
 				}
+
+*/
+                // write a block data at once
+				float const *const tmp[] = { myRenderParams->downBuf ,myRenderParams->downBuf2 ,0 };
+				writer->writeFromFloatArrays(tmp, myRenderParams->numChannels, myACHI.numSamples);
+
 
 
 #define DISP_COUNT 20
@@ -145,10 +170,7 @@ void RenderThread::run( )
         writer = nullptr;
         outStream = nullptr;
         tempFile.overwriteTargetFileWithTemporary();
-#ifdef CSV_OUT
-        tempDatalogFileStream = nullptr;
-        tempDatalogFile.overwriteTargetFileWithTemporary();
-#endif
+
     }
 
 

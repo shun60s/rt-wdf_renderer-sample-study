@@ -16,6 +16,8 @@
               resource="0" file="../Circuits/wdfSadouPushPushTriodeAmpTree.hpp"/>
         <FILE id="uopZSw" name="wdfSadouPushPushVCVSConnectionTriodeAmpTree.hpp"
               compile="0" resource="0" file="../Circuits/wdfSadouPushPushVCVSConnectionTriodeAmpTree.hpp"/>
+        <FILE id="egxK67" name="wdfSadouPushPushVCVSConnectionTriodeAmpTree2.hpp"
+              compile="0" resource="0" file="../Circuits/wdfSadouPushPushVCVSConnectionTriodeAmpTree2.hpp"/>
         <FILE id="gvwkvN" name="wdfSwitchTree.hpp" compile="0" resource="0"
               file="../Circuits/wdfSwitchTree.hpp"/>
         <FILE id="v4sCyy" name="wdfTonestackTree.hpp" compile="0" resource="0"
@@ -36,23 +38,6 @@
           <FILE id="g4hNZl" name="rt-wdf_nlSolvers.h" compile="0" resource="0"
                 file="../Libs/rt-wdf_lib/Libs/rt-wdf/rt-wdf_nlSolvers.h"/>
           <FILE id="mFqD3M" name="rt-wdf_types.h" compile="0" resource="0" file="../Libs/rt-wdf_lib/Libs/rt-wdf/rt-wdf_types.h"/>
-        </GROUP>
-        <GROUP id="{CF55B2CC-8AA6-5D80-552E-BA97092C4D3D}" name="r8brain-free-src">
-          <FILE id="jnTxJR" name="CDSPBlockConvolver.h" compile="0" resource="0"
-                file="../Libs/r8brain-free-src/CDSPBlockConvolver.h"/>
-          <FILE id="Jjx4KX" name="CDSPFIRFilter.h" compile="0" resource="0" file="../Libs/r8brain-free-src/CDSPFIRFilter.h"/>
-          <FILE id="wJUKwK" name="CDSPFracInterpolator.h" compile="0" resource="0"
-                file="../Libs/r8brain-free-src/CDSPFracInterpolator.h"/>
-          <FILE id="rDxw4T" name="CDSPProcessor.h" compile="0" resource="0" file="../Libs/r8brain-free-src/CDSPProcessor.h"/>
-          <FILE id="EObIVK" name="CDSPRealFFT.h" compile="0" resource="0" file="../Libs/r8brain-free-src/CDSPRealFFT.h"/>
-          <FILE id="HePFsH" name="CDSPResampler.h" compile="0" resource="0" file="../Libs/r8brain-free-src/CDSPResampler.h"/>
-          <FILE id="P8GM2b" name="CDSPSincFilterGen.h" compile="0" resource="0"
-                file="../Libs/r8brain-free-src/CDSPSincFilterGen.h"/>
-          <FILE id="AbaJAA" name="fft4g.h" compile="0" resource="0" file="../Libs/r8brain-free-src/fft4g.h"/>
-          <FILE id="ttAoB5" name="r8bbase.cpp" compile="1" resource="0" file="../Libs/r8brain-free-src/r8bbase.cpp"/>
-          <FILE id="LXTBHI" name="r8bbase.h" compile="0" resource="0" file="../Libs/r8brain-free-src/r8bbase.h"/>
-          <FILE id="vMAUHu" name="r8bconf.h" compile="0" resource="0" file="../Libs/r8brain-free-src/r8bconf.h"/>
-          <FILE id="NMZ8yI" name="r8butil.h" compile="0" resource="0" file="../Libs/r8brain-free-src/r8butil.h"/>
         </GROUP>
       </GROUP>
       <FILE id="xOOD0l" name="MainComponent.cpp" compile="1" resource="0"
