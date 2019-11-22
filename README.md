@@ -10,8 +10,7 @@ Windows10 + Visual Studio Community 2017の環境で動かすために変更し�
 - stereo (2 channel)入力に対応 source
 - 出力ファイル名を変更。   RenderThread.cpp
 - CSVファイル出力の無効化。RenderThread.cpp
-- Input Gain Controlの有効化。 wdfCCTAx1Tree.hpp wdfCCTAx4Tree.hpp
-- downsamplingの無効化。 MainComponent.cpp RenderThread.cpp
+- Input Gain Controlの有効化。 wdfCCTAx1Tree.hpp wdfCCTAx4Tree.hpp  
 - VisualStudio2017の追加。　wdfRenderer.jucer
 - triode モデルの6K6　を追加　rt-wdf_lib  
 - triode モデルの2A3　を追加　rt-wdf_lib  
