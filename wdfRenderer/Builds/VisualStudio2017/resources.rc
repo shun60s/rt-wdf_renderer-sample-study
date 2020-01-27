@@ -16,7 +16,7 @@ BEGIN
       VALUE "FileDescription",  "wdfRenderer\0"
       VALUE "FileVersion",  "1.0.0\0"
       VALUE "ProductName",  "wdfRenderer\0"
-      VALUE "ProductVersion",  "1.0.0\0"
+      VALUE "ProductVersion",  "1.0.1\0"
     END
   END
 

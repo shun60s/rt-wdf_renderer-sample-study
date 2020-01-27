@@ -28,7 +28,7 @@
 
   iteration ITMAX, October-2019, Shun
   add NewtonSolver coefficient ALPHA adjustment, October-2019, Shun
- 
+  re-adjust NewtonSolver coefficient ALPHA     , January-2020, Shun
  ==============================================================================
  
  */
@@ -70,7 +70,7 @@
 
 /** NewtonSolver coefficient, alpha    */
 #ifdef  DEF_6K6
-#define ALPHA2 0.6  // 0.9NG  0.75NG  0.7NG 0.6OK 0.5OK 
+#define ALPHA2 0.5  // 0.9NG  0.75NG  0.7NG 0.6OK->NG 0.5OK 
 #endif
 
 //==============================================================================

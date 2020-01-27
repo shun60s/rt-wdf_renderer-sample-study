@@ -14,8 +14,8 @@ Change:
   add wdfSadouPushPushVCVSConnectionTriodeAmpTree2, October-2019, Shun
   delete Resampler fucntion, November-2019, Shun
   stereo input available,    November-2019, Shun
-  layout size change,        November-2019, Shun
-  
+  layout size to 600, 460,   November-2019, Shun
+  add a message              January-2020,  Shun
 ===============================================================================
 */
  
@@ -150,9 +150,12 @@ public:
             wdfTree->initTree();
         }
         
-
+        // message
+        writeLogLine("This is a change of rt-wdf_renderer.");
+        writeLogLine("how to use: select a circuit(Tone Stack,CCTAx1,etc), Open File, and then Render");
+        
+        
         UpdateWdfTree(START_ID-1);
-
 
         /*
         writeLogLine("Created WDF tree");
@@ -169,7 +172,7 @@ public:
 
         // writeLogLine("Ready.");
 
-		writeLogLine("Order: 1st select wdr, next open file, and last render");
+		
 
     }
 
@@ -397,7 +400,7 @@ protected:
                 upBuf = new float[downBufSize]; //BS TODO
 				upBuf2 = new float[downBufSize]; //BS TODO
                
-                readerSource = newSource.release();
+                readerSource = newSource.release();  // leaves a dangling pointer
             }
         }
     }
